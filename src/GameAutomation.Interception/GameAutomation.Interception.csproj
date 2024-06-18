@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows10.0.22621</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>GameAutomation.Interception</PackageId>
+		<Version>1.0.1</Version>
+		<Authors>Sersho</Authors>
+		<Company>CreativeCoders</Company>
+		<Description>Part of GameAutomation.Core</Description>
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<_PackageFiles Include="$(OutputPath)\interception.dll">
+			<BuildAction>None</BuildAction>
+			<PackagePath>lib\net8.0-windows10.0.22621\</PackagePath>
+		</_PackageFiles>
+	</ItemGroup>
+
+	<Target Name="PushNuGetPackage" AfterTargets="GenerateNuspec">
+		<Message Text="Push NuGet Package Feed" Importance="high"></Message>
+		<Exec Command="D:\Development\Nuget\nuget.exe push $(ProjectDir)bin\Release\$(PackageId).$(PackageVersion).nupkg -Source https://gitea.gamefarming.ru/api/packages/RookieRangers/nuget/index.json -ApiKey 115002c8bd66f0cd7eb202a5e0b2c9a8d88c7d56" Condition="'$(Configuration)' == 'Release'"></Exec>
+	</Target>
+
+	<ItemGroup>
+		<None Update="Libraries\interception.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>interception.dll</TargetPath>
+		</None>
+	</ItemGroup>
+
+</Project>

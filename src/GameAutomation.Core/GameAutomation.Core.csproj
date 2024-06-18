@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows10.0.22621</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Nullable>disable</Nullable>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>GameAutomation.Core</PackageId>
+		<Version>1.1.1</Version>
+		<Authors>Sersho</Authors>
+		<Company>CreativeCoders</Company>
+		<Description>GameAutomation Framework</Description>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<Target Name="PushNuGetPackage" AfterTargets="GenerateNuspec">
+		<Message Text="Push NuGet Package Feed" Importance="high"></Message>
+		<Exec Command="D:\Development\Nuget\nuget.exe push $(ProjectDir)bin\Release\$(PackageId).$(PackageVersion).nupkg -Source https://gitea.gamefarming.ru/api/packages/RookieRangers/nuget/index.json -ApiKey 115002c8bd66f0cd7eb202a5e0b2c9a8d88c7d56" Condition="'$(Configuration)' == 'Release'"></Exec>
+	</Target>
+
+	<ItemGroup>
+		<PackageReference Include="Emgu.CV.Bitmap" Version="4.8.1.5350" />
+		<PackageReference Include="Emgu.CV.runtime.windows" Version="4.8.1.5350" />
+		<PackageReference Include="GameOverlay.Net" Version="4.3.1" />
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="8.0.0" />
+		<PackageReference Include="System.ServiceModel.Primitives" Version="8.0.0" />
+		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\GameAutomation.Interception\GameAutomation.Interception.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Sounds.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Sounds.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Sounds.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Sounds.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Screen\TessData\eng.traineddata">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Screen\TessData\rus.traineddata">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+	<!--<ItemGroup>
+		<_PackageFiles Include="$(OutputPath)\Screen\TessData\eng.traineddata">
+			<BuildAction>None</BuildAction>
+			<PackagePath>Screen\TessData\rus.traineddata</PackagePath>
+		</_PackageFiles>
+		<_PackageFiles Include="$(OutputPath)\Screen\TessData\eng.traineddata">
+			<BuildAction>None</BuildAction>
+			<PackagePath>Screen\TessData\eng.traineddata</PackagePath>
+		</_PackageFiles>
+	</ItemGroup>-->
+	
+</Project>
